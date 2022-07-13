@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Knoknok</string>
+
+    <string name="required">Required</string>
+    <string name="country_code">+91</string>
+    <string name="pick_from_contacts">Pick from contacts</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="msg_token_fmt"></string>
+    <string name="title_activity_message_">Message_Activity</string>
+    <string name="tab_text_1">Sended</string>
+    <string name="tab_text_2">Received</string>
+    <string name="title_activity_message">MessageActivity</string>
+
+</resources>
+

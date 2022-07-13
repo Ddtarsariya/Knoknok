@@ -1,0 +1,276 @@
+package com.ddt.knoknok.Fragment;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.ddt.knoknok.Adapter.Received_Sms_Adapter;
+import com.ddt.knoknok.Model.Sms_Model;
+import com.ddt.knoknok.Permission.PermissionHandler;
+import com.ddt.knoknok.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.WriteBatch;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ReceivedSmsFragment extends Fragment {
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    RecyclerView recyclerView;
+    ProgressBar progressBar;
+    TextView textView;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private DocumentReference documentReference = db.collection("Users").document(mAuth.getCurrentUser().getEmail());
+    private CollectionReference collectionReference = db.collection("Users");
+    RecyclerView.LayoutManager layoutManager;
+    List<Sms_Model> modelList = new ArrayList<>();
+    Received_Sms_Adapter adapter;
+    PermissionHandler permissions = new PermissionHandler();
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    public ReceivedSmsFragment() {
+        // Required empty public constructor
+    }
+
+    // TODO: Rename and change types and number of parameters
+    public static ReceivedSmsFragment newInstance() {
+        ReceivedSmsFragment fragment = new ReceivedSmsFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_received_sms, container, false);
+        recyclerView = view.findViewById(R.id.Class_Recyclerview);
+        progressBar = view.findViewById(R.id.recycler_progress);
+        textView = view.findViewById(R.id.emptyornot);
+        showData();
+        return view;
+    }
+
+    private void showData() {
+        progressBar.setVisibility(View.VISIBLE);
+        documentReference.collection("Received_Sms").orderBy("date", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.getResult().isEmpty()){
+                            textView.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.GONE);
+                            return;
+                        }
+                        textView.setVisibility(View.GONE);
+                        for (DocumentSnapshot doc : task.getResult()){
+                            Sms_Model sms_model = new Sms_Model(
+                                    doc.getString("id"),
+                                    doc.getString("from"),
+                                    doc.getString("msg"),
+                                    doc.getString("date")
+                            );
+                            modelList.add(sms_model);
+                        }
+                        progressBar.setVisibility(View.GONE);
+                        adapter= new Received_Sms_Adapter(ReceivedSmsFragment.this,modelList);
+                        recyclerView.setAdapter(adapter);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void showData(int position, String smsDate, String smsFrom, String smsBody) {
+        Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.show_received_sms);
+        dialog.setCancelable(true);
+        TextView textDate = dialog.findViewById(R.id.smsDate);
+        TextView textfrom = dialog.findViewById(R.id.smsFrom);
+        TextView textbody = dialog.findViewById(R.id.smsBody);
+
+        textDate.setText("Date : "+smsDate);
+        textfrom.setText("From : "+smsFrom);
+        textbody.setText(smsBody);
+
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+    }
+
+    public void deleteData(int index) {
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        if (permissions.isNetworkAvailable(getContext())){
+            documentReference.collection("Received_Sms").document(modelList.get(index).getId())
+                    .delete()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            modelList.clear();
+                            recyclerView.setVisibility(View.VISIBLE);
+                            Toast.makeText(getContext(), "Deleted..", Toast.LENGTH_SHORT).show();
+                            showData();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else {
+            documentReference.collection("Received_Sms").document(modelList.get(index).getId())
+                    .delete();
+            modelList.clear();
+            Toast.makeText(getContext(), "Deleted..", Toast.LENGTH_SHORT).show();
+            recyclerView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+            showData();
+        }
+    }
+
+    public void CreateDeleteDialogue(int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        String[] options = {"Delete", "Delete All"};
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    deleteData(position);
+                }
+                if (which == 1) {
+                    deleteAlldata();
+                }
+            }
+        }).create().show();
+    }
+
+    private void deleteAlldata() {
+        documentReference.collection("Received_Sms").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                delteeAllReceivedSms(new String[]{document.getId()});
+                            }
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+
+    private void delteeAllReceivedSms(String[] id) {
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        WriteBatch batch = db.batch();
+        if (!permissions.isNetworkAvailable(getContext())) {
+            try {
+                for (String documentId : id) {
+                    batch.delete(documentReference.collection("Received_Sms").document(documentId));
+                }
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+                modelList.clear();
+                showData();
+                checkEmptyOrNot();
+                return;
+
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }else {
+            try {
+                for (String documentId : id) {
+                    batch.delete(documentReference.collection("Received_Sms").document(documentId));
+                    batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            modelList.clear();
+                            progressBar.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            // Toast.makeText(Received_Sms.this, "Deleted..", Toast.LENGTH_SHORT).show();
+                            showData();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressBar.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+                checkEmptyOrNot();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void checkEmptyOrNot() {
+        documentReference.collection("Received_Sms")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.getResult().isEmpty()) {
+                            Toast.makeText(getContext(), "Deleted..", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+}

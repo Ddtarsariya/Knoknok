@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "231102014623",
+    "firebase_url": "https://knok-nok.firebaseio.com",
+    "project_id": "knok-nok",
+    "storage_bucket": "knok-nok.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231102014623:android:b9620f75f68eed80c32eaa",
+        "android_client_info": {
+          "package_name": "com.ddt.knoknok"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231102014623-5pmhhh2dffc1secpc4cp3vmg1qflgcj9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ddt.knoknok",
+            "certificate_hash": "ad66d5df4abf9cf39b25dc8f6d722eacc68f8736"
+          }
+        },
+        {
+          "client_id": "231102014623-nclqdrkdiivgjeeq0r503eki6vdprlno.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ddt.knoknok",
+            "certificate_hash": "3880a88cfd79c1a4f755584ebf4090e41331e733"
+          }
+        },
+        {
+          "client_id": "231102014623-rva80ht4mgcgmp706ieli9u5jaqttv1h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMf_AoyVLC1sAVCk0GahJWkQeryZkkjpc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "231102014623-rva80ht4mgcgmp706ieli9u5jaqttv1h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

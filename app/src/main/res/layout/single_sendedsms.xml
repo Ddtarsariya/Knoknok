@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:padding="8sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/relativeimage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/image_message"
+                android:layout_centerInParent="true"
+                android:background="@drawable/contact_circle"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+            <ImageView
+                android:layout_centerInParent="true"
+                android:background="@drawable/sent"
+                android:maxLength="1"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/sended_recycler_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sended_recycler_smstext"
+            android:layout_alignParentEnd="true"
+            android:text="Date"
+            android:textColor="#9C9C9C"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_alignParentTop="true"
+            android:id="@+id/sended_recycler_smstext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/relativeimage"
+            android:ellipsize="end"
+            android:textColor="#373737"
+            android:maxLines="1"
+            android:padding="5sp"
+            android:text=" messagesms" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:layout_gravity="bottom"
+        android:background="#e0e0e0"/>
+
+</com.google.android.material.card.MaterialCardView>

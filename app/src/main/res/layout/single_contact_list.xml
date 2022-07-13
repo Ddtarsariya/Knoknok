@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="#fff">
+
+    <RelativeLayout
+        android:paddingTop="5sp"
+        android:paddingBottom="5sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/image_contact"
+            android:layout_centerInParent="true"
+            android:background="@drawable/contact_circle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+            <TextView
+                android:id="@+id/contact_firstcharacter"
+                android:layout_centerInParent="true"
+                android:maxLength="1"
+                android:textColor="#fff"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
+        <TextView
+            android:padding="5sp"
+            android:paddingStart="65sp"
+            android:id="@+id/recycler_name"
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:textColor="#000"
+            android:ellipsize="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello World"/>
+        <TextView
+            android:paddingStart="66sp"
+            android:id="@+id/prefixtext"
+            android:text="+91"
+            android:layout_below="@+id/recycler_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_below="@+id/recycler_name"
+            android:layout_toRightOf="@+id/prefixtext"
+            android:layout_marginLeft="5sp"
+            android:id="@+id/recycler_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="9999999999"/>
+        <CheckBox
+            android:visibility="gone"
+            android:id="@+id/checkbox_item"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+        <View
+            android:layout_gravity="bottom"
+            android:layout_below="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:background="#e0e0e0" />
+
+</com.google.android.material.card.MaterialCardView>

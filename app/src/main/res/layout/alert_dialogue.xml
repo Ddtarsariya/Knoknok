@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imagealert"
+            android:src="@drawable/alertimg"
+            android:layout_marginTop="10sp"
+            android:layout_marginRight="5sp"
+            android:layout_width="match_parent"
+            android:layout_height="200sp"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textonlyfrom"
+                    android:layout_marginLeft="10sp"
+                    android:layout_width="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textSize="14sp"
+                    android:textColor="#8C8C8C"
+                    android:layout_height="wrap_content"
+                    android:text="From :- "/>
+                <TextView
+                    android:layout_toRightOf="@+id/textonlyfrom"
+                    android:id="@+id/textFrom"
+                    android:text="999999999"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textonlybody"
+                    android:layout_marginLeft="10sp"
+                    android:layout_width="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textSize="15sp"
+                    android:textColor="#8C8C8C"
+                    android:layout_height="wrap_content"
+                    android:text="Msg :-  "/>
+                <TextView
+                    android:layout_toRightOf="@+id/textonlybody"
+                    android:id="@+id/textBody"
+                    android:textColor="#3C3C3C"
+                    android:maxLines="4"
+                    android:ellipsize="end"
+                    android:layout_marginRight="4sp"
+                    android:text="hello from dhaval djsahdjas dasgd dahdsa dsagdasdjg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/Alert_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:textColor="@color/colorPrimary"
+                android:layout_toStartOf="@+id/Alert_save"
+                android:text="Cancel" />
+            <Button
+                android:id="@+id/Alert_save"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:textColor="@color/colorPrimary"
+                android:text="Save"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

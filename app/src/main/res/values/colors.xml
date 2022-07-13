@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#e4e4e4</color>
+    <color name="colorAccent">#000000</color>
+    <color name="colorActionMode">#000</color>
+
+    <color name="colorRed">#FF3F3F</color>
+    <color name="colorGreen">#4CAF50</color>
+    <color name="colorBlue">#2196F3</color>
+    <color name="colorOrange">#FF9800</color>
+    <color name="colorGrey">#ACACAC</color>
+    <color name="colorYellow">#FFEB3B</color>
+<!--    colo for contact char-->
+
+    <integer-array name="contact_color">
+        <item>@color/colorBlue</item>
+        <item>@color/colorGreen</item>
+        <item>@color/colorGrey</item>
+        <item>@color/colorOrange</item>
+        <item>@color/colorRed</item>
+        <item>@color/colorYellow</item>
+    </integer-array>
+
+</resources>
